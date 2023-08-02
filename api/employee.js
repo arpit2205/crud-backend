@@ -7,7 +7,7 @@ const { Employee } = require("../models/Employee");
 router.get("/", async (req, res) => {
   try {
     const employees = await Employee.findAll();
-    employees.forEach((e) => console.log(e.toJSON()));
+    // employees.forEach((e) => console.log(e.toJSON()));
     res.status(200).json({ data: employees });
   } catch (err) {
     res.status(500).json({ error: err });
@@ -31,6 +31,22 @@ router.post("/add", async (req, res) => {
       department,
       contact,
       email,
+    });
+    res.status(200).json({ data: employee });
+  } catch (err) {
+    res.status(500).json({ error: err });
+  }
+});
+
+// delete employee by id
+router.delete("/delete/:id", async (req, res) => {
+  const id = req.params.id;
+
+  try {
+    const employee = await Employee.destroy({
+      where: {
+        id: id,
+      },
     });
     res.status(200).json({ data: employee });
   } catch (err) {
